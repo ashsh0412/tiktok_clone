@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interests_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
@@ -34,11 +34,12 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const InterestScreen(),
-      ),
-    );
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const InterestScreen(),
+        ), (route) {
+      return false;
+    });
   }
 
   void _setTextFieldDate(DateTime date) {

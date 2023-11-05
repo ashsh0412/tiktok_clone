@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/onboarding/interest_button.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/tutorial_screen.dart';
 
 const interests = [
