@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPost extends StatefulWidget {
@@ -33,15 +36,11 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
-    try {
-      await _videoPlayerController.initialize();
-    } catch (e) {
-      return;
-    }
-
-    _videoPlayerController.play();
-    setState(() {});
+    VideoPlayerController.asset("assets/videos.video.mp4");
+    await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
+    setState(() {});
   }
 
   @override
@@ -79,6 +78,25 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
+  void _onCommentsTap(BuildContext context) {
+    if (_videoPlayerController.value.isPlaying == false) {
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        clipBehavior: Clip.hardEdge,
+        builder: (context) => const VideoComments(),
+      );
+    } else {
+      _togglePause();
+      showModalBottomSheet(
+        clipBehavior: Clip.hardEdge,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) => const VideoComments(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -102,15 +120,72 @@ class _VideoPostState extends State<VideoPost>
                 scale: _animationController.value,
                 child: AnimatedOpacity(
                   duration: _animationDuration,
-                  opacity: _isPaused ? 1 : 0,
+                  opacity: _isPaused ? 0 : 1,
                   child: const FaIcon(
                     FontAwesomeIcons.play,
                     color: Colors.white,
-                    size: Sizes.size52,
+                    size: Sizes.size56,
                   ),
                 ),
               ),
             ),
+          ),
+        ),
+        const Positioned(
+          bottom: 10,
+          left: 20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "@James",
+                style: TextStyle(
+                  fontSize: Sizes.size20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Gaps.v5,
+              Text(
+                "This is my house in Korea!",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          right: 10,
+          child: Column(
+            children: [
+              const CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.black,
+                foregroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/3612017"),
+                child: Text("Tony"),
+              ),
+              Gaps.v16,
+              const VideoButton(
+                icon: FontAwesomeIcons.solidHeart,
+                text: "2.9M",
+              ),
+              Gaps.v16,
+              GestureDetector(
+                onTap: () => _onCommentsTap(context),
+                child: const VideoButton(
+                  icon: FontAwesomeIcons.solidComment,
+                  text: "33k",
+                ),
+              ),
+              Gaps.v16,
+              const VideoButton(
+                icon: FontAwesomeIcons.share,
+                text: "Share",
+              ),
+            ],
           ),
         ),
       ],
