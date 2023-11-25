@@ -82,16 +82,16 @@ class _VideoPostState extends State<VideoPost>
     if (_videoPlayerController.value.isPlaying == false) {
       showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         backgroundColor: Colors.transparent,
-        clipBehavior: Clip.hardEdge,
         builder: (context) => const VideoComments(),
       );
     } else {
       _togglePause();
       showModalBottomSheet(
-        clipBehavior: Clip.hardEdge,
         backgroundColor: Colors.transparent,
         context: context,
+        isScrollControlled: true,
         builder: (context) => const VideoComments(),
       );
     }
