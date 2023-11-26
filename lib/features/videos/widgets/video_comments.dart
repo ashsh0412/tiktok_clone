@@ -13,10 +13,18 @@ class VideoComments extends StatefulWidget {
 class _VideoCommentsState extends State<VideoComments> {
   bool _isWriting = false;
 
-  void _onStartWriting() {
-    setState(() {
-      _isWriting = true;
-    });
+  final textController = TextEditingController();
+
+  _onStartWriting() {
+    if (textController.text.isNotEmpty) {
+      setState(() {
+        _isWriting = true;
+      });
+    } else {
+      setState(() {
+        _isWriting = !_isWriting;
+      });
+    }
   }
 
   void _onClosedPressed() {
@@ -61,9 +69,11 @@ class _VideoCommentsState extends State<VideoComments> {
           child: Stack(
             children: [
               ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  vertical: Sizes.size10,
-                  horizontal: Sizes.size16,
+                padding: const EdgeInsets.only(
+                  top: Sizes.size10,
+                  left: Sizes.size16,
+                  right: Sizes.size16,
+                  bottom: Sizes.size96,
                 ),
                 separatorBuilder: (context, index) => Gaps.v20,
                 itemCount: 10,
@@ -75,7 +85,7 @@ class _VideoCommentsState extends State<VideoComments> {
                       child: Text("HI"),
                     ),
                     Gaps.h10,
-                    const Expanded(
+                    const Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -110,16 +120,15 @@ class _VideoCommentsState extends State<VideoComments> {
                 ),
               ),
               Positioned(
+                height: size.height * 0.1,
                 bottom: 0,
                 width: size.width,
                 child: BottomAppBar(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: Sizes.size16,
-                      right: Sizes.size16,
-                      bottom: Sizes.size10,
-                      top: Sizes.size8,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: Sizes.size16,
+                      horizontal: Sizes.size10,
                     ),
                     child: Row(
                       children: [
@@ -132,7 +141,8 @@ class _VideoCommentsState extends State<VideoComments> {
                         Gaps.h10,
                         Expanded(
                           child: TextField(
-                            onTap: _onStartWriting,
+                            controller: textController,
+                            onChanged: (text) => _onStartWriting(),
                             expands: true,
                             textInputAction: TextInputAction.newline,
                             minLines: null,
