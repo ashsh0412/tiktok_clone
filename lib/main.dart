@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/inbox/chat_detail.dart';
+import 'package:tiktok_clone/features/users/user_profile.dart';
 
 void main() {
   runApp(const TikTokApp());
@@ -28,7 +28,7 @@ class TikTokApp extends StatelessWidget {
         primaryColor: const Color(0xFFE9435A),
         splashColor: Colors.transparent,
       ),
-      home: const ChatDetailScreen(),
+      home: const UserProfileScreen(),
     );
   }
 }
