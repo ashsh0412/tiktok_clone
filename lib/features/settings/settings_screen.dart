@@ -38,13 +38,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             onTap: () async {
-              final date = await showDatePicker(
+              await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
                 firstDate: DateTime(1950),
                 lastDate: DateTime(2030),
               );
-              final time = await showTimePicker(
+              // ignore: use_build_context_synchronously
+              await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
               );
