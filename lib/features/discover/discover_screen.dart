@@ -45,14 +45,19 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 1,
-          title: CupertinoSearchTextField(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size16,
-              horizontal: Sizes.size16,
+          title: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: Breakpoints.sm,
             ),
-            controller: _textEditingController,
-            onChanged: _onSearchChanged,
-            onSubmitted: _onSearchSubmitted,
+            child: CupertinoSearchTextField(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size16,
+                horizontal: Sizes.size16,
+              ),
+              controller: _textEditingController,
+              onChanged: _onSearchChanged,
+              onSubmitted: _onSearchSubmitted,
+            ),
           ),
           bottom: TabBar(
             splashFactory: NoSplash.splashFactory,
@@ -90,70 +95,75 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                 mainAxisSpacing: Sizes.size10,
                 childAspectRatio: 9 / 21,
               ),
-              itemBuilder: (context, index) => Column(
-                children: [
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
+              itemBuilder: (context, index) => LayoutBuilder(
+                builder: (context, constraints) => Column(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
-                      Sizes.size4,
-                    )),
-                    child: AspectRatio(
-                      aspectRatio: 9 / 16,
-                      child: FadeInImage.assetNetwork(
-                        fit: BoxFit.cover,
-                        placeholder: "assets/images/placeholder.jpg",
-                        image:
-                            "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-                      ),
-                    ),
-                  ),
-                  Gaps.v10,
-                  const Text(
-                    "This is very long caption for mhy ticitoierhioe thawt ina am upaloadhrel",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: Sizes.size16,
-                    ),
-                  ),
-                  Gaps.v5,
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 14,
-                        backgroundImage: NetworkImage(
-                          "https://avatars.githubusercontent.com/u/3612017",
+                          Sizes.size4,
                         ),
                       ),
-                      Gaps.h4,
-                      Expanded(
-                        child: Text(
-                          "My arheorvneorhp0ehrhp",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontWeight: FontWeight.bold,
+                      child: AspectRatio(
+                        aspectRatio: 9 / 16,
+                        child: FadeInImage.assetNetwork(
+                          fit: BoxFit.cover,
+                          placeholder: "assets/images/placeholder.jpg",
+                          image:
+                              "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+                        ),
+                      ),
+                    ),
+                    Gaps.v10,
+                    Text(
+                      "${constraints.maxWidth} This is very long caption for mhy ticitoierhioe thawt ina am upaloadhrel",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: Sizes.size16,
+                      ),
+                    ),
+                    Gaps.v5,
+                    if (constraints.maxWidth < 200 ||
+                        constraints.maxWidth > 250)
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 14,
+                            backgroundImage: NetworkImage(
+                              "https://avatars.githubusercontent.com/u/3612017",
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          Gaps.h4,
+                          Expanded(
+                            child: Text(
+                              "My arheorvneorhp0ehrhp",
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Gaps.h4,
+                          const FaIcon(
+                            FontAwesomeIcons.heart,
+                            size: Sizes.size16,
+                          ),
+                          Gaps.h2,
+                          Text(
+                            "2.5M",
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      Gaps.h4,
-                      const FaIcon(
-                        FontAwesomeIcons.heart,
-                        size: Sizes.size16,
-                      ),
-                      Gaps.h2,
-                      Text(
-                        "2.5M",
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             for (var tab in tabs.skip(1))

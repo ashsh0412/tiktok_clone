@@ -10,12 +10,15 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
+
   final int index;
+
   const VideoPost({
     super.key,
     required this.onVideoFinished,
     required this.index,
   });
+
   @override
   State<VideoPost> createState() => _VideoPostState();
 }
@@ -23,8 +26,11 @@ class VideoPost extends StatefulWidget {
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
+
   final Duration _animationDuration = const Duration(milliseconds: 200);
+
   late final AnimationController _animationController;
+
   bool _isPaused = false;
 
   void _onVideoChange() {
@@ -41,10 +47,10 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    _videoPlayerController.addListener(_onVideoChange);
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
+    _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
 
@@ -52,6 +58,7 @@ class _VideoPostState extends State<VideoPost>
   void initState() {
     super.initState();
     _initVideoPlayer();
+
     _animationController = AnimationController(
       vsync: this,
       lowerBound: 1.0,
@@ -59,6 +66,13 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    _animationController.dispose();
+    super.dispose();
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -73,26 +87,17 @@ class _VideoPostState extends State<VideoPost>
     }
   }
 
-  @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    super.dispose();
-  }
-
   void _onTogglePause() {
-    if (_videoPlayerController.value.isPlaying && mounted) {
+    if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse();
-      setState(() {
-        _isPaused = !_isPaused;
-      });
-    } else if (_videoPlayerController.value.isPlaying == false && mounted) {
+    } else {
       _videoPlayerController.play();
       _animationController.forward();
-      setState(() {
-        _isPaused = !_isPaused;
-      });
     }
+    setState(() {
+      _isPaused = !_isPaused;
+    });
   }
 
   void _onCommentsTap(BuildContext context) async {
