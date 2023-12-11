@@ -115,108 +115,111 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-      key: Key("${widget.index}"),
-      onVisibilityChanged: _onVisibilityChanged,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: _videoPlayerController.value.isInitialized
-                ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
-                  ),
-          ),
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _onTogglePause,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: VisibilityDetector(
+        key: Key("${widget.index}"),
+        onVisibilityChanged: _onVisibilityChanged,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: _videoPlayerController.value.isInitialized
+                  ? VideoPlayer(_videoPlayerController)
+                  : Container(
+                      color: Colors.black,
+                    ),
             ),
-          ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Center(
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _animationController.value,
-                      child: child,
-                    );
-                  },
-                  child: AnimatedOpacity(
-                    opacity: _isPaused ? 1 : 0,
-                    duration: _animationDuration,
-                    child: const FaIcon(
-                      FontAwesomeIcons.play,
-                      color: Colors.white,
-                      size: Sizes.size52,
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _onTogglePause,
+              ),
+            ),
+            Positioned.fill(
+              child: IgnorePointer(
+                child: Center(
+                  child: AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _animationController.value,
+                        child: child,
+                      );
+                    },
+                    child: AnimatedOpacity(
+                      opacity: _isPaused ? 1 : 0,
+                      duration: _animationDuration,
+                      child: const FaIcon(
+                        FontAwesomeIcons.play,
+                        color: Colors.white,
+                        size: Sizes.size52,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          const Positioned(
-            bottom: 20,
-            left: 10,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "@니꼬",
-                  style: TextStyle(
-                    fontSize: Sizes.size20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            const Positioned(
+              bottom: 20,
+              left: 10,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "@니꼬",
+                    style: TextStyle(
+                      fontSize: Sizes.size20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Gaps.v10,
-                Text(
-                  "This is my house in Thailand!!!",
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                    color: Colors.white,
-                  ),
-                )
-              ],
+                  Gaps.v10,
+                  Text(
+                    "This is my house in Thailand!!!",
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 20,
-            right: 10,
-            child: Column(
-              children: [
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
-                    "https://avatars.githubusercontent.com/u/3612017",
+            Positioned(
+              bottom: 20,
+              right: 10,
+              child: Column(
+                children: [
+                  const CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    foregroundImage: NetworkImage(
+                      "https://avatars.githubusercontent.com/u/3612017",
+                    ),
+                    child: Text("니꼬"),
                   ),
-                  child: Text("니꼬"),
-                ),
-                Gaps.v24,
-                const VideoButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: "2.9M",
-                ),
-                Gaps.v24,
-                GestureDetector(
-                  onTap: () => _onCommentsTap(context),
-                  child: const VideoButton(
-                    icon: FontAwesomeIcons.solidComment,
-                    text: "33K",
+                  Gaps.v24,
+                  const VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: "2.9M",
                   ),
-                ),
-                Gaps.v24,
-                const VideoButton(
-                  icon: FontAwesomeIcons.share,
-                  text: "Share",
-                )
-              ],
+                  Gaps.v24,
+                  GestureDetector(
+                    onTap: () => _onCommentsTap(context),
+                    child: const VideoButton(
+                      icon: FontAwesomeIcons.solidComment,
+                      text: "33K",
+                    ),
+                  ),
+                  Gaps.v24,
+                  const VideoButton(
+                    icon: FontAwesomeIcons.share,
+                    text: "Share",
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

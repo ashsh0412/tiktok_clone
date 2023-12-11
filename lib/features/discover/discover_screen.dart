@@ -41,136 +41,143 @@ class _DiscoverScreenState extends State<DiscoverScreen>
     final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: tabs.length,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 1,
-          title: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: Breakpoints.sm,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+        ),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 1,
+            title: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: Breakpoints.sm,
+              ),
+              child: CupertinoSearchTextField(
+                padding: const EdgeInsets.symmetric(
+                  vertical: Sizes.size16,
+                  horizontal: Sizes.size16,
+                ),
+                controller: _textEditingController,
+                onChanged: _onSearchChanged,
+                onSubmitted: _onSearchSubmitted,
+              ),
             ),
-            child: CupertinoSearchTextField(
+            bottom: TabBar(
+              splashFactory: NoSplash.splashFactory,
               padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size16,
                 horizontal: Sizes.size16,
               ),
-              controller: _textEditingController,
-              onChanged: _onSearchChanged,
-              onSubmitted: _onSearchSubmitted,
+              isScrollable: true,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: Sizes.size16,
+              ),
+              unselectedLabelColor: Colors.grey.shade500,
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              tabs: [
+                for (var tab in tabs)
+                  Tab(
+                    text: tab,
+                  ),
+              ],
             ),
           ),
-          bottom: TabBar(
-            splashFactory: NoSplash.splashFactory,
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size16,
-            ),
-            isScrollable: true,
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: Sizes.size16,
-            ),
-            unselectedLabelColor: Colors.grey.shade500,
-            labelColor: Colors.black,
-            indicatorColor: Colors.black,
-            tabs: [
-              for (var tab in tabs)
-                Tab(
-                  text: tab,
+          body: TabBarView(
+            children: [
+              GridView.builder(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size10,
+                  vertical: Sizes.size10,
                 ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            GridView.builder(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size10,
-                vertical: Sizes.size10,
-              ),
-              itemCount: 20,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: width > Breakpoints.lg ? 5 : 2,
-                crossAxisSpacing: Sizes.size10,
-                mainAxisSpacing: Sizes.size10,
-                childAspectRatio: 9 / 21,
-              ),
-              itemBuilder: (context, index) => LayoutBuilder(
-                builder: (context, constraints) => Column(
-                  children: [
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          Sizes.size4,
-                        ),
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: 9 / 16,
-                        child: FadeInImage.assetNetwork(
-                          fit: BoxFit.cover,
-                          placeholder: "assets/images/placeholder.jpg",
-                          image:
-                              "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-                        ),
-                      ),
-                    ),
-                    Gaps.v10,
-                    Text(
-                      "${constraints.maxWidth} This is very long caption for mhy ticitoierhioe thawt ina am upaloadhrel",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: Sizes.size16,
-                      ),
-                    ),
-                    Gaps.v5,
-                    if (constraints.maxWidth < 200 ||
-                        constraints.maxWidth > 250)
-                      Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 14,
-                            backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/3612017",
-                            ),
+                itemCount: 20,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: width > Breakpoints.lg ? 5 : 2,
+                  crossAxisSpacing: Sizes.size10,
+                  mainAxisSpacing: Sizes.size10,
+                  childAspectRatio: 9 / 21,
+                ),
+                itemBuilder: (context, index) => LayoutBuilder(
+                  builder: (context, constraints) => Column(
+                    children: [
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            Sizes.size4,
                           ),
-                          Gaps.h4,
-                          Expanded(
-                            child: Text(
-                              "My arheorvneorhp0ehrhp",
+                        ),
+                        child: AspectRatio(
+                          aspectRatio: 9 / 16,
+                          child: FadeInImage.assetNetwork(
+                            fit: BoxFit.cover,
+                            placeholder: "assets/images/placeholder.jpg",
+                            image:
+                                "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+                          ),
+                        ),
+                      ),
+                      Gaps.v10,
+                      Text(
+                        "${constraints.maxWidth} This is very long caption for mhy ticitoierhioe thawt ina am upaloadhrel",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: Sizes.size16,
+                        ),
+                      ),
+                      Gaps.v5,
+                      if (constraints.maxWidth < 200 ||
+                          constraints.maxWidth > 250)
+                        Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 14,
+                              backgroundImage: NetworkImage(
+                                "https://avatars.githubusercontent.com/u/3612017",
+                              ),
+                            ),
+                            Gaps.h4,
+                            Expanded(
+                              child: Text(
+                                "My arheorvneorhp0ehrhp",
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Gaps.h4,
+                            const FaIcon(
+                              FontAwesomeIcons.heart,
+                              size: Sizes.size16,
+                            ),
+                            Gaps.h2,
+                            Text(
+                              "2.5M",
                               style: TextStyle(
                                 color: Colors.grey.shade500,
                                 fontWeight: FontWeight.bold,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Gaps.h4,
-                          const FaIcon(
-                            FontAwesomeIcons.heart,
-                            size: Sizes.size16,
-                          ),
-                          Gaps.h2,
-                          Text(
-                            "2.5M",
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            for (var tab in tabs.skip(1))
-              Center(
-                child: Text(tab),
-              ),
-          ],
+              for (var tab in tabs.skip(1))
+                Center(
+                  child: Text(tab),
+                ),
+            ],
+          ),
         ),
       ),
     );

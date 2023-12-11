@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
@@ -23,6 +24,7 @@ class _UserProfileScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
@@ -31,8 +33,8 @@ class _UserProfileScreenState extends State {
             body: GridView.builder(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemCount: 20,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: width > Breakpoints.lg ? 5 : 3,
                 crossAxisSpacing: Sizes.size4,
                 mainAxisSpacing: Sizes.size4,
                 childAspectRatio: 9 / 14,
@@ -199,7 +201,7 @@ class _UserProfileScreenState extends State {
                         children: [
                           Flexible(
                             child: FractionallySizedBox(
-                              widthFactor: 0.6,
+                              widthFactor: width > Breakpoints.lg ? 0.3 : 0.6,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: Sizes.size14,
